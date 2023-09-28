@@ -83,19 +83,17 @@ void MainWindow::StartRace(void){
         //ui->te_debug->append("Выполни ДЗ!");
         //Тут должен быть код ДЗ
 
+
         //Вариант 1
-//        ftrConcurRace1 = QtConcurrent::run(&ExampleRace::DoWork, this, &number, true, ui->sb_initNum->value());
+//        ftrConcurRace1 = QtConcurrent::run([&]{concurRace1->DoWork(&number, true, ui->sb_initNum->value());});
 //        ftrWtchrConcurRace1.setFuture(ftrConcurRace1);
-//        connect(ftrWtchrConcurRace1, &QFutureWatcher<void>::finished, this, [&]{
-//            ftrConcurRace2 = QtConcurrent::run(&ExampleRace::DoWork, this, &number, true, ui->sb_initNum->value());
-//            ftrWtchrConcurRace2.setFuture(ftrConcurRace2);
-//        });
+//        ftrConcurRace2 = QtConcurrent::run([&]{concurRace2->DoWork(&number, true, ui->sb_initNum->value());});
+//        ftrWtchrConcurRace2.setFuture(ftrConcurRace2);
+
 
         //Вариант 2
-        auto func_concurRace1 = [&]{return concurRace1->DoWork(&number, true, ui->sb_initNum->value());};
-        auto func_concurRace2 = [&]{return concurRace2->DoWork(&number, true, ui->sb_initNum->value());};
-        //ftrConcurRace1 = QtConcurrent::run(func_concurRace1);
-        //ftrConcurRace2 = QtConcurrent::run(func_concurRace2);
+        auto func_concurRace1 = [&]{concurRace1->DoWork(&number, true, ui->sb_initNum->value());};
+        auto func_concurRace2 = [&]{concurRace2->DoWork(&number, true, ui->sb_initNum->value());};
         ftrConcurRace1 = QtConcurrent::run(func_concurRace1).then(func_concurRace2);
     }
     else{
@@ -110,6 +108,6 @@ void MainWindow::on_pb_start_clicked()
     ui->pb_start->setEnabled(false);
     countFinish = 0;
     number = 0;
-    StartRace( );
+    StartRace();
 }
 

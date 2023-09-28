@@ -3,6 +3,7 @@
 
 #include <QThread>
 #include <QMutex>
+#include <cstdint>
 #include <functional>
 
 //Создаем класс в котором будем реализовывать код, выполняемый в нескольких потоках

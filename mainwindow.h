@@ -37,7 +37,6 @@ private:
 
     QFuture<void> ftrConcurRace1;
     QFuture<void> ftrConcurRace2;
-
     QFutureWatcher<void> ftrWtchrConcurRace1;
     QFutureWatcher<void> ftrWtchrConcurRace2;
 };
