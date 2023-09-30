@@ -74,6 +74,8 @@ MainWindow::MainWindow(QWidget *parent)
             ftrConcurRace2 = QtConcurrent::run([&]{concurRace2->DoWork(&number, false, ui->sb_initNum->value());});
             ftrWtchrConcurRace2.setFuture(ftrConcurRace2);
     });
+    //В этой программе второй обработчик получается не нужен, т.к. метод DoWork сам отправляет этот сигнал.
+    //connect(&ftrWtchrConcurRace2, &QFutureWatcher<void>::finished, concurRace2, &ExampleRace::sig_Finish);
 }
 
 MainWindow::~MainWindow()
