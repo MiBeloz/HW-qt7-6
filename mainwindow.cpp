@@ -68,6 +68,12 @@ MainWindow::MainWindow(QWidget *parent)
             ui->pb_start->setEnabled(true);
         }
     });
+
+    //Вариант 1
+    connect(&ftrWtchrConcurRace1, &QFutureWatcher<void>::finished, this, [&]{
+            ftrConcurRace2 = QtConcurrent::run([&]{concurRace2->DoWork(&number, false, ui->sb_initNum->value());});
+            ftrWtchrConcurRace2.setFuture(ftrConcurRace2);
+    });
 }
 
 MainWindow::~MainWindow()
@@ -85,16 +91,14 @@ void MainWindow::StartRace(void){
 
 
         //Вариант 1
-//        ftrConcurRace1 = QtConcurrent::run([&]{concurRace1->DoWork(&number, true, ui->sb_initNum->value());});
-//        ftrWtchrConcurRace1.setFuture(ftrConcurRace1);
-//        ftrConcurRace2 = QtConcurrent::run([&]{concurRace2->DoWork(&number, true, ui->sb_initNum->value());});
-//        ftrWtchrConcurRace2.setFuture(ftrConcurRace2);
+        ftrConcurRace1 = QtConcurrent::run([&]{concurRace1->DoWork(&number, false, ui->sb_initNum->value());});
+        ftrWtchrConcurRace1.setFuture(ftrConcurRace1);
 
 
         //Вариант 2
-        auto func_concurRace1 = [&]{concurRace1->DoWork(&number, true, ui->sb_initNum->value());};
-        auto func_concurRace2 = [&]{concurRace2->DoWork(&number, true, ui->sb_initNum->value());};
-        ftrConcurRace1 = QtConcurrent::run(func_concurRace1).then(func_concurRace2);
+//        auto func_concurRace1 = [&]{concurRace1->DoWork(&number, true, ui->sb_initNum->value());};
+//        auto func_concurRace2 = [&]{concurRace2->DoWork(&number, true, ui->sb_initNum->value());};
+//        ftrConcurRace1 = QtConcurrent::run(func_concurRace1).then(func_concurRace2);
     }
     else{
         race1->operate(&number, ui->rb_mutexOn->isChecked(), ui->sb_initNum->value());
